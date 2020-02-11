@@ -117,16 +117,6 @@ resource "null_resource" "chef_server_test" {
     script = "${path.module}/../../../common/files/test_chef_server-smoke.sh"
   }
 
-  # install push jobs addon
-  provisioner "remote-exec" {
-    script = "${path.module}/../../../common/files/install_addon_push_jobs.sh"
-  }
-
-  # test push jobs addon
-  provisioner "remote-exec" {
-    script = "${path.module}/../../../common/files/test_addon_push_jobs.sh"
-  }
-
   # install chef manage addon
   provisioner "remote-exec" {
     script = "${path.module}/../../../common/files/install_addon_chef_manage.sh"

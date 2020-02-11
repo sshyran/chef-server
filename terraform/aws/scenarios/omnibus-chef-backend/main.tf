@@ -236,37 +236,6 @@ resource "null_resource" "chef_server_test1" {
   provisioner "remote-exec" {
     script = "${path.module}/../../../common/files/test_chef_server-smoke.sh"
   }
-}
-
-resource "null_resource" "chef_backend_test" {
-  depends_on = ["null_resource.chef_server_test1"]
-
-  # provide some connection info
-  connection {
-    type = "ssh"
-    user = "${module.backend1.ssh_username}"
-    host = "${module.backend1.public_ipv4_dns}"
-  }
-
-  # test leader demotion
-  provisioner "remote-exec" {
-    script = "${path.module}/../../../common/files/test_chef_backend-demotion.sh"
-  }
-}
-
-resource "null_resource" "chef_server_test2" {
-  depends_on = ["null_resource.chef_backend_test"]
-
-  connection {
-    type = "ssh"
-    user = "${module.chef_server.ssh_username}"
-    host = "${module.chef_server.public_ipv4_dns}"
-  }
-
-  # run smoke test
-  provisioner "remote-exec" {
-    script = "${path.module}/../../../common/files/test_chef_server-smoke.sh"
-  }
 
   # install push jobs addon
   provisioner "remote-exec" {
